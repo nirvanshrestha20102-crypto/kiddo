@@ -18,6 +18,14 @@
     overflow: hidden;
   }
 
+  #app {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .card {
     background: #fff;
     padding: 40px 50px;
@@ -84,11 +92,13 @@
 
 <body>
 
-<div class="card">
-  <h1>Will you be my Valentine? 🥺</h1>
-  <div class="buttons">
-    <button id="yesBtn">Yes 💘</button>
-    <button id="noBtn">No 😭</button>
+<div id="app">
+  <div class="card">
+    <h1>Will you be my Valentine? 🥺</h1>
+    <div class="buttons">
+      <button id="yesBtn">Yes 💘</button>
+      <button id="noBtn">No 😭</button>
+    </div>
   </div>
 </div>
 
@@ -97,23 +107,21 @@
 </audio>
 
 <script>
+  const app = document.getElementById("app");
   const noBtn = document.getElementById("noBtn");
   const yesBtn = document.getElementById("yesBtn");
   const crySound = document.getElementById("crySound");
 
   let noScale = 1;
   let yesScale = 1;
-
   let baseNoX = 20;
   let baseNoY = 0;
 
   function moveNoButton() {
     const x = Math.random() * 220 - 110;
     const y = Math.random() * 120 - 60;
-
     baseNoX = x;
     baseNoY = y;
-
     noBtn.style.transform = `translate(${x}px, ${y}px) scale(${noScale})`;
   }
 
@@ -123,37 +131,33 @@
   noBtn.addEventListener("click", () => {
     crySound.currentTime = 0;
     crySound.play();
-
     noScale = Math.max(0.4, noScale - 0.15);
     yesScale += 0.15;
-
     noBtn.style.transform = `translate(${baseNoX}px, ${baseNoY}px) scale(${noScale})`;
     yesBtn.style.transform = `translateX(-120%) scale(${yesScale})`;
   });
 
   yesBtn.addEventListener("click", () => {
-    document.body.innerHTML = `
+    app.innerHTML = `
       <div style="
-        height:100vh;
+        height:100%;
         width:100%;
         display:flex;
-        flex-direction:column;
         justify-content:center;
         align-items:center;
         background:#800020;
-        text-align:center;
-        color:black;
-        font-family:Poppins;
-        overflow:hidden;">
-       
-        <h1 style="font-size:3rem; background:white; padding:30px; border-radius:20px;">
+        text-align:center;">
+        <h1 style="
+          font-size:3rem;
+          background:white;
+          padding:30px;
+          border-radius:20px;">
           YAYYY 💖🥰<br><br>
-          My Kiddoo!!!🎀<br>
+          My Kiddoo!!! 🎀<br>
           You’re my Valentineee!!! 💝💕
         </h1>
       </div>
     `;
-
     createHearts();
   });
 
@@ -166,7 +170,6 @@
       heart.style.fontSize = Math.random() * 20 + 20 + "px";
       heart.style.animationDuration = Math.random() * 3 + 4 + "s";
       document.body.appendChild(heart);
-
       setTimeout(() => heart.remove(), 7000);
     }, 300);
   }
